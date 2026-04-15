@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # University Fee Management System
 
 A web application for managing university fees using Flask.
@@ -20,3 +21,6 @@ A web application for managing university fees using Flask.
 - Login
 - Students can view and pay fees
 - Admins can add fees, view all, download receipts
+=======
+# AI_Project_1161
+>>>>>>> 13d08aeb798561fde559d4e9fccfda7346aa92bc
