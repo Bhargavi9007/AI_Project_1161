@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card hero-card p-4 mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-7">
+            <h1 class="display-5 fw-bold">Welcome to University Fee Management</h1>
+            <p class="lead text-secondary">A polished and friendly portal to track, pay, and manage student fees with role-based admin access.</p>
+            <div class="btn-group-custom mt-4">
+                <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}">Login</a>
+                <a class="btn btn-info btn-lg" href="{{ url_for('auth.register') }}">Register</a>
+            </div>
+        </div>
+        <div class="col-md-5 text-center mt-4 mt-md-0">
+            <div class="badge bg-warning text-dark py-2 px-3">Formal. Colorful. Simple.</div>
+            <img src="https://cdn.jsdelivr.net/gh/encharm/Font-Awesome-SVG-PNG@master/black/svg/graduation-cap.svg" alt="University" width="140" class="mt-4">
+        </div>
+    </div>
+</div>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h4 class="section-title">Student Friendly</h4>
+            <p>View fee status, payment deadlines, and receive receipts all from a simple dashboard.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h4 class="section-title">Admin Control</h4>
+            <p>Add fee records, view payments, export data, and download receipts in one place.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h4 class="section-title">Secure</h4>
+            <p>Session authentication with hashed passwords ensures data is protected for every user.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+    <div>
+        <h2>Student Dashboard</h2>
+        <p class="text-secondary">Track your fees, payments, and download receipts in one place.</p>
+    </div>
+    <div class="btn-group-custom">
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">Logout</a>
+    </div>
+</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card summary-card p-3">
+            <div class="card-body">
+                <span class="text-muted">Total Fees</span>
+                <h3>{{ fees|length }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card summary-card p-3">
+            <div class="card-body">
+                <span class="text-muted">Paid Fees</span>
+                <h3>{{ fees|selectattr('status', 'equalto', 'Paid')|list|length }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card summary-card p-3">
+            <div class="card-body">
+                <span class="text-muted">Pending / Late</span>
+                <h3>{{ fees|selectattr('status', 'ne', 'Paid')|list|length }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card p-4">
+    <h3 class="section-title mb-3">Your Fee Records</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Fee Title</th>
+                    <th>Amount</th>
+                    <th>Due Date</th>
+                    <th>Payment Date</th>
+                    <th>Status</th>
+                    <th>Penalty</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fee in fees %}
+                <tr>
+                    <td><strong>{{ fee.title }}</strong></td>
+                    <td>${{ fee.amount }}</td>
+                    <td>{{ fee.due_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{% if fee.payment_date %}{{ fee.payment_date.strftime('%Y-%m-%d') }}{% else %}N/A{% endif %}</td>
+                    <td>
+                        <span class="badge-status {% if fee.status == 'Paid' %}badge-paid{% elif fee.status == 'Pending' %}badge-pending{% else %}badge-late{% endif %}">{{ fee.status }}</span>
+                    </td>
+                    <td>${{ fee.penalty_amount }}</td>
+                    <td class="d-flex gap-2">
+                        {% if fee.status != 'Paid' %}
+                        <form method="POST" action="{{ url_for('student.pay_fee', fee_id=fee.id) }}" class="m-0">
+                            <button type="submit" class="btn btn-success btn-sm">Pay Fee</button>
+                        </form>
+                        {% endif %}
+                        {% if fee.status == 'Paid' %}
+                        <a href="{{ url_for('student.download_receipt', fee_id=fee.id) }}" class="btn btn-info btn-sm">Receipt</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
